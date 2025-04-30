@@ -8,6 +8,6 @@ authRoutes
     .post("/register", authController.register)
     .post("/login", authController.login)
     .post("/sign-out", authController.signOut)
-  
+    
 
 export default authRoutes;
