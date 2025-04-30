@@ -10,6 +10,7 @@ import { User } from "../models/User";
 import { OAuth2Client } from "google-auth-library";
 import { generateToken } from "../utils/generateToken";
 import { Transcript } from "../models/Transcript";
+import { Types } from "mongoose";
 
 dotenv.config();
 
@@ -39,11 +40,11 @@ const extractVideoId = (url: string): string | null => {
     }
   };
   
-  export const fetchTranscriptFromYoutube = asyncHandler(async (req: Request, res: Response): Promise<any> => {
+export const fetchTranscriptFromYoutube = asyncHandler(async (req: Request, res: Response): Promise<any> => {
     const { youtubeUrl, projectId, name } = req.body;
     const videoId = extractVideoId(youtubeUrl);
-  
-    if (!videoId) {
+
+    if (!videoId) { 
       return res.status(400).json({ error: 'Invalid YouTube URL' });
     }
   
@@ -68,8 +69,9 @@ const extractVideoId = (url: string): string | null => {
          return res.status(501).json({message:"Something Wents Wrong With FUll TEXT"})
       }
 // console.log("projectId", projectId);
+const userId  = req.user as {userId:Types.ObjectId,iat:number,exp:number}
 
-      await Transcript.create({videoId,project:projectId, transcript:fullText,  youtubeUrl, name })
+      await Transcript.create({videoId,project:projectId, transcript:fullText,  youtubeUrl, name, user:userId.userId })
 
       return res.status(200).json({
        message:"Transcript Created Successfully"
@@ -94,8 +96,10 @@ export const getAllTranscriptById = asyncHandler(async (req: Request, res: Respo
   });
 });
 export const getAllTranscripts  = asyncHandler(async (req: Request, res: Response): Promise<any> => {
-  
-  const data = await Transcript.find()
+  const userId  = req.user as {userId:string,iat:number,exp:number}
+
+  const data = await Transcript.find({user:userId.userId})
+//  console.log("dataaa", data);
  
   res.status(201).json({
     message: "All Transcripts Fetch successfully",

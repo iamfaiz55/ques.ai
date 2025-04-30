@@ -17,7 +17,7 @@ const schema = yup.object().shape({
 });
 const Register = () => {
   const navigate = useNavigate()
-  const [signUp, {isSuccess}]= useRegisterMutation()
+  const [signUp, {isSuccess, isError, error}]= useRegisterMutation()
   const {
     register,
     handleSubmit,
@@ -36,8 +36,13 @@ const Register = () => {
     if(isSuccess){
       toast.success("User Register Success")
 navigate("/login")
+    }   
+    if(isError){
+      toast.error(error as string)
+      // console.log("error", error);
+      
     }
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
   return (
 <div className="min-h-screen flex flex-col md:flex-row">
 

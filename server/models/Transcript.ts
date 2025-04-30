@@ -7,6 +7,8 @@ export interface ITranscript extends Document {
   youtubeUrl: string;
   project: Types.ObjectId;
   transcript: string
+  user:Types.ObjectId
+  
 
 }
 
@@ -17,7 +19,9 @@ const TranscriptSchema = new Schema<ITranscript>(
     youtubeUrl: { type: String },
     name: { type: String },
     project: { type: Schema.ObjectId,ref:"project", required: true },
-    transcript:{type:String, required:true}
+    transcript:{type:String, required:true},
+        user: { type: Schema.ObjectId, ref:"users" , required:true},
+    
   },
   { timestamps: true }
 );
