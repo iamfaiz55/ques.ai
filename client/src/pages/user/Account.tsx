@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { FaArrowLeft } from "react-icons/fa"; // Importing the back arrow icon
+import { FaArrowLeft } from "react-icons/fa";
 
 const Account = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -68,7 +68,7 @@ const Account = () => {
                 type="email"
                 value={user?.email || ""}
                 readOnly
-                className="w-full px-3 bg-white py-2 border border-gray-300 bg-gray-100 rounded-md"
+                className="w-full px-3 py-2 border border-gray-300 bg-gray-100 rounded-md"
               />
             </div>
           </div>
